@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+"""
+
+
+from selenium import webdriver
+from bs4 import BeautifulSoup 
+driver=webdriver.Chrome()
+product=[]
+ratings=[]
+prices=[]
+driver.get("https://www.amazon.in/gp/new-releases/electronics/ref=zg_bsnr_pg_2?ie=UTF8&pg")
+content=driver.page_source
+soup=BeautifulSoup(content)
+
+for i in soup.find_all('div',attrs={"class":"_cDEzb_p13n-sc-css-line-clamp-3_g3dy1"}):
+    name=i
+    product.append(name.text)
+for i in soup.find_all('span',attrs={"class":"_cDEzb_p13n-sc-price_3mJ9Z"}):
+    price=i
+    prices.append(price.text)
+    #prices.pop()
+    
+   
+for i in soup.find_all('span',attrs={'class':"a-icon-alt"}):
+    rate=i
+    ratings.append(rate.text)
+    ratings.pop()
+    
+    
+    
+import pandas as pd
+import numpy as np
+df=pd.DataFrame({'Product_name':product,'rice':prices,'Rating':ratings})
